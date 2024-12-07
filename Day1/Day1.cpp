@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 #include <algorithm>
-
+#include <cstdlib>
 
 bool compareInts(int i, int j){
 	return (i<j);
@@ -30,11 +30,7 @@ int firstTask(char* inputFile){
 	int result = 0;
 
 	for(int i = 0; i < leftColumn.size();i++){
-	
-		int tmp = (leftColumn[i] - rightColumn[i]);
-		if(tmp<0)
-			tmp =tmp*-1;
-		result += tmp;
+		result += abs(leftColumn[i] - rightColumn[i]);
 	}
 	return result;
 
