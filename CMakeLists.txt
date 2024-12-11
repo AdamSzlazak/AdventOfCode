@@ -8,3 +8,4 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_STANDARD_REQUIRED ON)
 
 add_subdirectory(Day1)
+add_subdirectory(Day2)

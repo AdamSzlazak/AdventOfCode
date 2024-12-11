@@ -1,0 +1,27 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug CMake Project",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${command:cmake.launchTargetPath}", // Automatically picks the target built by CMake
+            "args": [
+                "/home/Grzywo/Projects/AdventOfCode/Day2/data.txt"
+            ], // Replace with the file path you want to pass
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}", // Sets the working directory
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb", // Use gdb for Linux/Mac or lldb for Mac
+            "miDebuggerPath": "/usr/bin/gdb", // Adjust if using a different debugger
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        }
+    ]
+}
