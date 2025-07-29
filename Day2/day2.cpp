@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -24,33 +25,7 @@ bool checkIfChangeDirect(std::vector<int> numbersToCheck) {
   return false;
 }
 bool checkIfChangedDirectionDampener(std::vector<int> numbersToCheck) {
-  bool isAscending = false, isAscendingSet = false;
-  for (size_t i = 0; i < numbersToCheck.size() - 1; i++) {
-    if (numbersToCheck[i] < numbersToCheck[i + 1]) {
-      if (isAscending == false && isAscendingSet == true) {
-        std::vector<int> numbersDampened = numbersToCheck;
-        numbersDampened.erase(numbersDampened.begin() + i);
-        bool dampenedResult = checkIfChangeDirect(numbersDampened);
-        if (dampenedResult) {
-          return true;
-        }
-      }
-      isAscending = true;
-      isAscendingSet = true;
-    } else if (numbersToCheck[i] > numbersToCheck[i + 1]) {
-      if (isAscending == true && isAscendingSet == true) {
-        std::vector<int> numbersDampened = numbersToCheck;
-        numbersDampened.erase(numbersDampened.begin() + i);
-        bool dampenedResult = checkIfChangeDirect(numbersDampened);
-        if (dampenedResult) {
-          return true;
-        }
-      }
-      isAscending = false;
-      isAscendingSet = true;
-    }
-  }
-  return false;
+
 }
 bool isLevelSafe(std::vector<int> numbersTocheck) {
   int levelChange;
@@ -81,19 +56,19 @@ bool isLevelSafeDampened(std::vector<int> numbersToCheck) {
 
 bool isSafer(std::vector<int> numbers) {
   bool dampened = false;
-  for (int i = 0; i < numbers.size()-1; i++) {
+  for (int i = 0; i < numbers.size() - 1; i++) {
     int lvlDiff = abs(numbers[i] - numbers[i + 1]);
     if (lvlDiff < 1 || lvlDiff > 3) {
       if (dampened) {
         return false;
       }
-	  if(i+2> numbers.size()){
-		  return false;
-	  }
+      if (i + 2 > numbers.size()) {
+        return false;
+      }
       int lvlDiff = abs(numbers[i] - numbers[i + 2]);
       if (lvlDiff >= 1 || lvlDiff <= 3) {
         dampened = true;
-		i++;
+        i++;
       }
     }
   }
@@ -154,10 +129,15 @@ int secondTask(std::string fileName) {
 
 int main(int argc, char **argv) {
 
-  std::string fileName =
-      "/Users/adamszlazak/Projects/AdventOfCode/Day2/input.txt";
-  std::cout << firstTask(fileName) << std::endl;
-  std::cout << secondTask(fileName) << std::endl;
+  std::string inputData;
+  // if (argc != 1) {
+  //   inputData = "/Users/adamszlazak/Projects/AdventOfCode/Day2/input.txt";
+  // } else {
+    inputData = "/home/Grzywo/Projects/AdventOfCode/Day2/testData.txt";
+  // }
+
+  std::cout << firstTask(inputData) << std::endl;
+  std::cout << secondTask(inputData) << std::endl;
 
   return 0;
 }
