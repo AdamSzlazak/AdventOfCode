@@ -63,17 +63,6 @@ bool isLevelSafe(std::vector<int> numbersTocheck) {
   return true;
 }
 
-int countSafeLevels(std::vector<int> numberVector) {
-  int safeLevels = 0;
-  for (int i = 0; i < numberVector.size() - 1; i++) {
-    int levelChange = abs(numberVector[i] - numberVector[i + 1]);
-    if (levelChange >= 1 || levelChange <= 3) {
-      safeLevels++;
-    }
-  }
-  return safeLevels;
-}
-
 bool isLevelSafeDampened(std::vector<int> numbersToCheck) {
   int levelChange;
   for (size_t i = 0; i < numbersToCheck.size() - 1; i++) {
@@ -89,46 +78,32 @@ bool isLevelSafeDampened(std::vector<int> numbersToCheck) {
   }
   return true;
 }
-std::vector<int> readFile(std::string fileName) {
-  std::vector<int> numbers;
 
-  std::cout<<"Opening file \n";
-  std::ifstream file(fileName);
-  std::cout<<"File open\n";
-  std::string numberString;
-
-  std::cout<<"Reading lines\n";
-  while (getline(file, numberString)) {
-	std::cout<<"Read line sucesfull\n";
-    std::istringstream stream(numberString);
-    int number;
-    while (stream >> number) {
-      numbers.push_back(number);
+bool isSafer(std::vector<int> numbers) {
+  bool dampened = false;
+  for (int i = 0; i < numbers.size()-1; i++) {
+    int lvlDiff = abs(numbers[i] - numbers[i + 1]);
+    if (lvlDiff < 1 || lvlDiff > 3) {
+      if (dampened) {
+        return false;
+      }
+	  if(i+2> numbers.size()){
+		  return false;
+	  }
+      int lvlDiff = abs(numbers[i] - numbers[i + 2]);
+      if (lvlDiff >= 1 || lvlDiff <= 3) {
+        dampened = true;
+		i++;
+      }
     }
   }
-  file.close();
-  return numbers;
-}
-
-int firstTaskRewritten(std::string fileName) {
-  std::vector<int> numbers = readFile(fileName);
-
-  bool changigDirection = checkIfChangeDirect(numbers);
-
-  if (changigDirection) {
-    return -1;
-  }
-
-  int safeLevels = countSafeLevels(numbers);
-
-  return safeLevels;
+  return true;
 }
 int firstTask(std::string fileName) {
   int tmpNUmber, safeLevelsCount = 0;
-  bool isSafe;
   std::vector<int> numbers;
   std::ifstream file(fileName);
-  if (!file) {
+  if (!file.is_open()) {
     std::cerr << "Failed to open file\n";
     return -1;
   }
@@ -141,8 +116,7 @@ int firstTask(std::string fileName) {
 
     bool changingDirection = checkIfChangeDirect(numbers);
     if (changingDirection == false) {
-      isSafe = isLevelSafe(numbers);
-      if (isSafe) {
+      if (isLevelSafe(numbers)) {
         safeLevelsCount++;
       }
     }
@@ -168,7 +142,7 @@ int secondTask(std::string fileName) {
 
     bool changingDirection = checkIfChangedDirectionDampener(numbers);
     if (changingDirection == false) {
-      isSafe = isLevelSafeDampened(numbers);
+      isSafe = isSafer(numbers);
       if (isSafe) {
         safeLevelCount++;
       }
@@ -180,15 +154,10 @@ int secondTask(std::string fileName) {
 
 int main(int argc, char **argv) {
 
-  // if (argc != 1) {
-  //   int firstTaskResult = firstTask(argv[1]);
-  //   int secondTaskResult = secondTask(argv[1]);
-  //   std::cout << firstTaskResult << "\n" << secondTaskResult << "\n";
-  // }
-
-	std::string fileName = "~/Projects/AdventOfCode/Day2/input.txt";
-	std::cout << firstTask(fileName) << std::endl;
-	std::cout << firstTaskRewritten(fileName);
+  std::string fileName =
+      "/Users/adamszlazak/Projects/AdventOfCode/Day2/input.txt";
+  std::cout << firstTask(fileName) << std::endl;
+  std::cout << secondTask(fileName) << std::endl;
 
   return 0;
 }
