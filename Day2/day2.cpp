@@ -1,32 +1,22 @@
 #include <algorithm>
 #include <fstream>
+#include <functional>
 #include <iostream>
 #include <sstream>
 #include <string>
 #include <vector>
 
-bool checkIfChangeDirect(std::vector<int> numbersToCheck) {
-  bool isAscending = false, isAscendingSet = false;
-  for (size_t i = 0; i < numbersToCheck.size() - 1; i++) {
-    if (numbersToCheck[i] < numbersToCheck[i + 1]) {
-      if (isAscending == false && isAscendingSet == true) {
-        return true;
-      }
-      isAscending = true;
-      isAscendingSet = true;
-    } else if (numbersToCheck[i] > numbersToCheck[i + 1]) {
-      if (isAscending == true && isAscendingSet) {
-        return true;
-      }
-      isAscending = false;
-      isAscendingSet = true;
-    }
-  }
-  return false;
-}
-bool checkIfChangedDirectionDampener(std::vector<int> numbersToCheck) {
 
+bool checkIfChangeDirect(std::vector<int> numbers) {
+  if (std::is_sorted(numbers.begin(), numbers.end())) {
+    return false;
+  }
+  if (std::is_sorted(numbers.begin(), numbers.end(), std::greater<int>())) {
+    return false;
+  }
+  return true;
 }
+
 bool isLevelSafe(std::vector<int> numbersTocheck) {
   int levelChange;
   for (size_t i = 0; i < numbersTocheck.size() - 1; i++) {
@@ -37,6 +27,11 @@ bool isLevelSafe(std::vector<int> numbersTocheck) {
   }
   return true;
 }
+
+bool checkIfChangedDirectionDampener(std::vector<int> numbersToCheck) {
+
+}
+
 
 bool isLevelSafeDampened(std::vector<int> numbersToCheck) {
   int levelChange;
@@ -54,26 +49,6 @@ bool isLevelSafeDampened(std::vector<int> numbersToCheck) {
   return true;
 }
 
-bool isSafer(std::vector<int> numbers) {
-  bool dampened = false;
-  for (int i = 0; i < numbers.size() - 1; i++) {
-    int lvlDiff = abs(numbers[i] - numbers[i + 1]);
-    if (lvlDiff < 1 || lvlDiff > 3) {
-      if (dampened) {
-        return false;
-      }
-      if (i + 2 > numbers.size()) {
-        return false;
-      }
-      int lvlDiff = abs(numbers[i] - numbers[i + 2]);
-      if (lvlDiff >= 1 || lvlDiff <= 3) {
-        dampened = true;
-        i++;
-      }
-    }
-  }
-  return true;
-}
 int firstTask(std::string fileName) {
   int tmpNUmber, safeLevelsCount = 0;
   std::vector<int> numbers;
@@ -100,44 +75,18 @@ int firstTask(std::string fileName) {
   return safeLevelsCount;
 }
 
-int secondTask(std::string fileName) {
-  bool isSafe;
-  std::ifstream file(fileName);
-  int tmpNumber, safeLevelCount = 0;
-  std::vector<int> numbers;
-  if (!file) {
-    std::cerr << "Failed to open file\n";
-  }
-
-  for (std::string line; getline(file, line);) {
-    std::istringstream tmpString(line);
-    while (tmpString >> tmpNumber) {
-      numbers.push_back(tmpNumber);
-    }
-
-    bool changingDirection = checkIfChangedDirectionDampener(numbers);
-    if (changingDirection == false) {
-      isSafe = isSafer(numbers);
-      if (isSafe) {
-        safeLevelCount++;
-      }
-    }
-    numbers.clear();
-  }
-  return safeLevelCount;
-}
-
 int main(int argc, char **argv) {
 
   std::string inputData;
-  // if (argc != 1) {
-  //   inputData = "/Users/adamszlazak/Projects/AdventOfCode/Day2/input.txt";
-  // } else {
-    inputData = "/home/Grzywo/Projects/AdventOfCode/Day2/testData.txt";
-  // }
+  bool testData = true;
+  if (testData) {
+    inputData = "/Users/adamszlazak/Projects/AdventOfCode/Day2/testData.txt";
+  } else {
+    inputData = "/Users/adamszlazak/Projects/AdventOfCode/Day2/input.txt";
+  }
 
   std::cout << firstTask(inputData) << std::endl;
-  std::cout << secondTask(inputData) << std::endl;
+  // std::cout << secondTask(inputData) << std::endl;
 
   return 0;
 }
