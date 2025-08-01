@@ -6,7 +6,6 @@
 #include <string>
 #include <vector>
 
-
 bool checkIfChangeDirect(std::vector<int> numbers) {
   if (std::is_sorted(numbers.begin(), numbers.end())) {
     return false;
@@ -26,10 +25,6 @@ bool isLevelSafe(std::vector<int> numbersTocheck) {
     }
   }
   return true;
-}
-
-bool checkIfChangedDirectionDampener(std::vector<int> numbersToCheck) {
-
 }
 
 
@@ -75,14 +70,39 @@ int firstTask(std::string fileName) {
   return safeLevelsCount;
 }
 
+bool checkIfChangedDirectionDampener(std::vector<int> numbersToCheck) {
+	
+
+}
+
+int secondTask(std::string fileName) {
+  int safeLevelCounter{0}, tmpNumber{0};
+  std::vector<int> numbers;
+  std::ifstream file(fileName);
+
+  if (!file.is_open()) {
+    std::cerr << "Failed to open file at path: " << fileName << "\n";
+    return -1;
+  }
+  for (std::string line; getline(file, line);) {
+    std::istringstream tmpString(line);
+    while (tmpString >> tmpNumber) {
+      numbers.push_back(tmpNumber);
+    }
+
+    return safeLevelCounter;
+  }
+}
 int main(int argc, char **argv) {
 
   std::string inputData;
   bool testData = true;
   if (testData) {
-    inputData = "/Users/adamszlazak/Projects/AdventOfCode/Day2/testData.txt";
+    // inputData = "/Users/adamszlazak/Projects/AdventOfCode/Day2/testData.txt";
+    inputData = "/home/Grzywo/Projects/AdventOfCode/Day2/testData.txt";
   } else {
-    inputData = "/Users/adamszlazak/Projects/AdventOfCode/Day2/input.txt";
+    // inputData = "/Users/adamszlazak/Projects/AdventOfCode/Day2/input.txt";
+    inputData = "/home/Grzywo/Projects/AdventOfCode/Day2/input.txt";
   }
 
   std::cout << firstTask(inputData) << std::endl;
