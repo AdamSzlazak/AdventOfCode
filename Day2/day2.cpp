@@ -27,7 +27,6 @@ bool isLevelSafe(std::vector<int> numbersTocheck) {
   return true;
 }
 
-
 bool isLevelSafeDampened(std::vector<int> numbersToCheck) {
   int levelChange;
   for (size_t i = 0; i < numbersToCheck.size() - 1; i++) {
@@ -69,10 +68,16 @@ int firstTask(std::string fileName) {
   }
   return safeLevelsCount;
 }
+bool checkIfChangedDirectionDampener(std::vector<int> numbersToCheck, bool dampened) {
+	bool isAscending = false, isOrderSet = false;
 
-bool checkIfChangedDirectionDampener(std::vector<int> numbersToCheck) {
-	
-
+	for(size_t i = 0; i< numbersToCheck.size(); i++)
+	{
+		if(numbers[i] < numbers[i+1])
+		{
+			if(!isAscending && isOrderSet)
+		}
+	}
 }
 
 int secondTask(std::string fileName) {
@@ -95,18 +100,18 @@ int secondTask(std::string fileName) {
 }
 int main(int argc, char **argv) {
 
-  std::string inputData;
-  bool testData = true;
-  if (testData) {
-    // inputData = "/Users/adamszlazak/Projects/AdventOfCode/Day2/testData.txt";
-    inputData = "/home/Grzywo/Projects/AdventOfCode/Day2/testData.txt";
-  } else {
-    // inputData = "/Users/adamszlazak/Projects/AdventOfCode/Day2/input.txt";
-    inputData = "/home/Grzywo/Projects/AdventOfCode/Day2/input.txt";
-  }
+#if defined(__linux__)
+  std::string inputData = "/home/Grzywo/Projects/AdventOfCode/Day2/input.txt";
+  std::string testData = "/home/Grzywo/Projects/AdventOfCode/Day2/testData.txt";
+#elif defined(__APPLE__)
+  std::string inputData =
+      "/Users/adamszlazak/Projects/AdventOfCode/Day2/input.txt";
+  std::string testData =
+      "/Users/adamszlazak/Projects/AdventOfCode/Day2/testData.txt";
+#endif
 
   std::cout << firstTask(inputData) << std::endl;
-  // std::cout << secondTask(inputData) << std::endl;
+  std::cout << secondTask(testData) << std::endl;
 
   return 0;
 }
